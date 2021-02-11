@@ -12,11 +12,18 @@ import java.util.PriorityQueue;
 public class Algos {
 
     public static class Dijkstra {
+        private final Node start;
+        private final Node destination;
 
-        public void search(Node start, Node destination) {
+        public Dijkstra(Node start, Node destination) {
+            this.start = start;
+            this.destination = destination;
+        }
+
+        public void search() {
 //            Initialize the cost/distance of all nodes to INFINITY
 //            Initialize the start Node to ZERO
-            start.cost = 0;
+            this.start.cost = 0;
 
 //            Create a data structure for priortizing Nodes to be visited - Priority Queue
             PriorityQueue<Node> toVisit = new PriorityQueue<>(new Comparator<Node>() {
@@ -27,7 +34,7 @@ public class Algos {
             });
 
 //            Add the source to the toVisit queue
-            toVisit.add(start);
+            toVisit.add(this.start);
 
 //            Loop through the Nodes in toVisit till its empty or the destination is VISITED
             while (!toVisit.isEmpty()) {
@@ -35,9 +42,10 @@ public class Algos {
                 Node current = toVisit.poll();
 //                Mark this Node as visited
                 current.visited = true;
+                System.out.println("Current node: " + current.name);
 
 //                If the current node is the destination. Stop all operation here
-                if (current.name.equals(destination.name)) {
+                if (current.name.equals(this.destination.name)) {
                     break;
                 }
 
@@ -46,6 +54,7 @@ public class Algos {
                     Node neighbour = edge.target;
                     double edgeCost = edge.cost;
                     
+                    System.out.println("Current Edge: " + neighbour.toString());
 //                    Skip the neighbouring Node if it has been visited already
                     if (neighbour.visited) continue;
                         
@@ -53,7 +62,7 @@ public class Algos {
 //                 RELAXATION: 
 //                  if current_cost + the edge cost < cost of curent Neighbour : Update the cost
                     if (newCost < neighbour.cost) {
-                        //                        Update the cost
+//                        Update the cost
                         neighbour.cost = newCost;
 //                        Set the parent Node(i.e the previous Node that leads to this Node)
                         neighbour.parent = current;
@@ -67,6 +76,15 @@ public class Algos {
                         toVisit.add(neighbour);
                     }
                 }
+            }
+        }
+        
+        public void printPath() {
+            Node p = this.destination;
+            System.out.print(p.toString() + " -> ");
+            while (p.parent != null) {
+                p = p.parent;
+                System.out.print(p.toString() + " -> ");
             }
         }
     }

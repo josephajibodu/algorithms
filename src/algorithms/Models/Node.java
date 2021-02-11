@@ -8,9 +8,11 @@ import java.util.List;
  * @author USER
  */
 public class Node {
-    public final String name; 
-//    Cost of reaching this node from the parent node
-    public double cost;
+    public final String name;
+//    To show if the Node has been visited
+    public boolean visited = false;
+//    Cost of reaching this node from the parent node (Initialized to Infinity)
+    public double cost = Double.POSITIVE_INFINITY;
     
 //    Nodes that can be reach via this node
     public List<Edge> adjacents = new ArrayList<>();
@@ -29,6 +31,6 @@ public class Node {
     
     @Override
     public String toString() {
-        return name;
+        return name + " Cost: " + this.cost;
     }
 }
